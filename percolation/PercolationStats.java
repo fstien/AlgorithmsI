@@ -28,6 +28,7 @@ public class PercolationStats {
 
     // test client (see below)
     public static void main(String[] args) {
+        Percolation perc = new Percolation(Integer.parseInt(args[1]));
 
     }
 
