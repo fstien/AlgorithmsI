@@ -7,7 +7,7 @@ public class PercolationStats {
     private final int n;
     private final int trials;
 
-    private final double confidence95 = 1.96;
+    private final static double confidence95 = 1.96;
 
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials) {

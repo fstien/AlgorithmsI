@@ -1,4 +1,3 @@
-import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 
@@ -84,7 +83,7 @@ public class Percolation {
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
         validateRange(row, col);
-        return sites.connected(0, index(row, col));
+        return isOpen(row, col) && sites.connected(0, index(row, col));
     }
 
     // returns the number of open sites
