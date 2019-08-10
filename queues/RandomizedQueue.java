@@ -8,7 +8,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] array;
     private int[] shuffle;
     private int n = 0;
-    private int arrayLenght = 10;
+    private final int arrayLenght = 100;
 
     // construct an empty randomized queue
     public RandomizedQueue() {
@@ -33,15 +33,25 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // add the item
     public void enqueue(Item item) {
-        if(item == null) throw new IllegalArgumentException();
-        StdRandom.shuffle(shuffle, n, arrayLenght);
+        if (item == null) throw new IllegalArgumentException();
+
+        // StdRandom.shuffle(shuffle, n, arrayLenght);
+
+        int indexToSwitch = StdRandom.uniform(n, arrayLenght+1);
+
+        int nValue = shuffle[n];
+        int switchValue = shuffle[indexToSwitch];
+
+        shuffle[n] = switchValue;
+        shuffle[indexToSwitch] = nValue;
+
         array[shuffle[n]] = item;
         n++;
     }
 
     // remove and return a random item
     public Item dequeue() {
-        if(isEmpty()) throw new NoSuchElementException();
+        if (isEmpty()) throw new NoSuchElementException();
         int i = StdRandom.uniform(n);
         Item toReturn = array[shuffle[i]];
 
@@ -57,7 +67,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // return a random item (but do not remove it)
     public Item sample() {
-        if(isEmpty()) throw new NoSuchElementException();
+        if (isEmpty()) throw new NoSuchElementException();
         return array[shuffle[StdRandom.uniform(n)]];
     }
 
@@ -76,7 +86,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         public void remove() { throw new UnsupportedOperationException(); }
 
         public Item next() {
-            if(!hasNext()) throw new NoSuchElementException();
+            if (!hasNext()) throw new NoSuchElementException();
             Item toReturn = array[shuffle[index]];
             index++;
             return toReturn;
@@ -109,7 +119,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         rq.enqueue("world");
         rq.enqueue("Francois");
 
-        for(String str : rq) {
+        for (String str : rq) {
             System.out.println(str);
         }
     }
