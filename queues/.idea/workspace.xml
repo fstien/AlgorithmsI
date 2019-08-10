@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c1e4f978-b3bd-4ae1-84e9-9e1170bce808" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Deque.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../percolation/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../percolation/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RandomizedQueue.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/" />
@@ -28,25 +25,53 @@
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Deque.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="3" column="18" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="18" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#369#370#0" expanded="true" />
-                <element signature="e#473#474#0" expanded="true" />
-                <element signature="e#1882#1883#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Deque.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="609">
+                  <caret line="80" column="5" lean-forward="true" selection-start-line="80" selection-start-column="5" selection-end-line="80" selection-end-column="5" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                    <element signature="e#369#370#0" expanded="true" />
+                    <element signature="e#473#474#0" expanded="true" />
+                    <element signature="e#1882#1883#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/RandomizedQueue.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="946">
+                  <caret line="97" selection-start-line="97" selection-end-line="97" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                    <element signature="e#363#364#0" expanded="true" />
+                    <element signature="e#2042#2043#0" expanded="true" />
+                    <element signature="e#2084#2085#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
     <option name="SCHEME" value="Project" />
   </component>
   <component name="FindBugs-IDEA-Workspace">
@@ -60,13 +85,14 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Deque.java" />
+        <option value="$PROJECT_DIR$/RandomizedQueue.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1280" />
+    <option name="x" value="410" />
     <option name="y" value="23" />
-    <option name="width" value="1280" />
+    <option name="width" value="2150" />
     <option name="height" value="1370" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -145,12 +171,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1565390168022</updated>
-      <workItem from="1565390169281" duration="3782000" />
+      <workItem from="1565390169281" duration="8046000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3782000" />
+    <option name="totallyTimeSpent" value="8046000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -162,11 +188,11 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1280" y="23" width="1280" height="1370" extended-state="0" />
+    <frame x="410" y="23" width="2150" height="1370" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="UI Designer" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21647818" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12713473" />
       <window_info id="Structure" order="1" show_stripe_button="false" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Favorites" order="3" show_stripe_button="false" side_tool="true" />
@@ -174,7 +200,7 @@
       <window_info anchor="bottom" id="Database Changes" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.21632025" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.21632025" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.2917629" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -219,13 +245,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Deque.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="18" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="18" />
+        <state relative-caret-position="609">
+          <caret line="80" column="5" lean-forward="true" selection-start-line="80" selection-start-column="5" selection-end-line="80" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#369#370#0" expanded="true" />
             <element signature="e#473#474#0" expanded="true" />
             <element signature="e#1882#1883#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RandomizedQueue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="946">
+          <caret line="97" selection-start-line="97" selection-end-line="97" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#363#364#0" expanded="true" />
+            <element signature="e#2042#2043#0" expanded="true" />
+            <element signature="e#2084#2085#0" expanded="true" />
           </folding>
         </state>
       </provider>
