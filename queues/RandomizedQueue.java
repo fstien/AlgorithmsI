@@ -8,7 +8,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] array;
     private int[] shuffle;
     private int n = 0;
-    private final int arrayLenght = 100;
+    private final int arrayLenght = 20000;
 
     // construct an empty randomized queue
     public RandomizedQueue() {
