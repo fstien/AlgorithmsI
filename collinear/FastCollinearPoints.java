@@ -23,10 +23,19 @@ public class FastCollinearPoints {
                     if (p1.compareTo(p2) == +0.0) throw new IllegalArgumentException();
                 }
 
-        int pointCount = points.length;
-        Point[] otherPoints = new Point[pointCount -1];
+        lineSegments = new LineSegment[points.length];
 
-        for (Point p : points) {
+        int pointCount = points.length;
+
+        double[] segmentSlopes = new double[pointCount];
+
+        Point[] otherPoints = new Point[pointCount - 1];
+        double[] slopes = new double[pointCount - 1];
+
+        Point p;
+
+        for (int ip = 0; ip < pointCount; ip++) {
+            p = points[ip];
 
             int j = 0;
             for (int i = 0; i < pointCount; i++) {
@@ -38,10 +47,56 @@ public class FastCollinearPoints {
 
             Arrays.sort(otherPoints, p.slopeOrder());
 
+            for (int i = 0; i < slopes.length; i++) {
+                slopes[i] = p.slopeTo(otherPoints[i]);
+            }
 
+            double previous = slopes[0];
+            double popular = slopes[0];
+            int count = 1;
+            int maxCount = 1;
 
+            for (int i = 1; i < slopes.length; i++) {
+                if (slopes[i] == previous)
+                    count++;
+                else {
+                    if (count > maxCount) {
+                        popular = slopes[i-1];
+                        maxCount = count;
+                    }
+                    previous = slopes[i];
+                    count = 1;
+                }
+            }
+
+            double popSlope = count > maxCount ? slopes[slopes.length-1] : popular;
+            int popCount = count > maxCount ? count : maxCount;
+
+            if (popCount >= 3) {
+                Point[] colPoints = new Point[popCount + 1];
+
+                colPoints[0] = p;
+                int z = 0;
+                for (int i = 0; i < slopes.length; i++) {
+                    if (slopes[i] == popSlope) {
+                        colPoints[z+1] = otherPoints[i];
+                        z++;
+                    }
+                }
+                LineSegment segment = findLongest(colPoints);
+
+                boolean segmentFoundAlready = false;
+
+                for (double slope : segmentSlopes)
+                    if (slope == popSlope) segmentFoundAlready = true;
+
+                if (!segmentFoundAlready) {
+                    lineSegments[segCount] = segment;
+                    segmentSlopes[segCount] = popSlope;
+                    segCount++;
+                }
+            }
         }
-
     }
 
     private LineSegment findLongest(Point... points) {
@@ -52,6 +107,7 @@ public class FastCollinearPoints {
             for (Point pointB : points) {
                 if (this.distance(pointA, pointB) > biggestDist) {
                     retSeg = new LineSegment(pointA, pointB);
+                    biggestDist = this.distance(pointA, pointB);
                 }
             }
         }
@@ -79,6 +135,13 @@ public class FastCollinearPoints {
 
     // the line segments
     public LineSegment[] segments() {
+        LineSegment[] returnSegs = new LineSegment[segCount];
+
+        for (int i = 0; i < segCount; i++) {
+            returnSegs[i] = lineSegments[i];
+        }
+
+        return returnSegs;
     }
 
     public static void main(String[] args) {
