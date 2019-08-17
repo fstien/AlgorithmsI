@@ -50,7 +50,7 @@ public class BruteCollinearPoints {
                                 if (!segmentFoundAlready) {
 
                                     // determine the longest segment
-
+                                    LineSegment lineSegment = this.findLongest(p1, p2, p3, p4);
                                     lineSegments[segCount] = new LineSegment(p1, p2);
                                     segmentSlopes[segCount] = currentSlope;
                                     segCount++;
@@ -66,10 +66,19 @@ public class BruteCollinearPoints {
 
     }
 
-    private LineSegment findLongest(Point p1, Point p2, Point p3, Point p4) {
+    private LineSegment findLongest(Point... points) {
+        double biggestDist = 0;
+        LineSegment retSeg = null;
 
+        for (Point pointA : points) {
+            for (Point pointB : points) {
+                if (this.distance(pointA, pointB) > biggestDist) {
+                    retSeg = new LineSegment(pointA, pointB);
+                }
+            }
+        }
 
-
+        return retSeg;
     }
 
     private double distance(Point a, Point b) {
