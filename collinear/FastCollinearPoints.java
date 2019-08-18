@@ -9,6 +9,9 @@ public class FastCollinearPoints {
     private final LineSegment[] lineSegments;
     private int segCount = 0;
 
+    private Point[] usedPoints;
+    private int x = 0;
+
     // finds all line segments containing 4 or more points
     public FastCollinearPoints(Point[] points) {
         if (points == null) throw new IllegalArgumentException();
@@ -24,10 +27,9 @@ public class FastCollinearPoints {
                 }
 
         lineSegments = new LineSegment[points.length];
+        usedPoints = new Point[points.length];
 
         int pointCount = points.length;
-
-        double[] segmentSlopes = new double[pointCount];
 
         Point[] otherPoints = new Point[pointCount - 1];
         double[] slopes = new double[pointCount - 1];
@@ -83,19 +85,32 @@ public class FastCollinearPoints {
                         z++;
                     }
                 }
-                LineSegment segment = findLongest(colPoints);
+                Point[] segPoints = findLongest(colPoints);
 
-                boolean segmentFoundAlready = false;
-
-                for (double slope : segmentSlopes)
-                    if (slope == popSlope) segmentFoundAlready = true;
-
-                if (!segmentFoundAlready) {
-                    lineSegments[segCount] = segment;
-                    segmentSlopes[segCount] = popSlope;
+                if (!this.includesPointAlreadyFound(colPoints)) {
+                    lineSegments[segCount] = new LineSegment(segPoints[0], segPoints[1]);
+                    this.found(segPoints[0], segPoints[1]);
                     segCount++;
                 }
             }
+        }
+    }
+
+    private boolean includesPointAlreadyFound(Point... points) {
+        for (int i = 0; i < points.length; i++) {
+            for (Point point : usedPoints) {
+                if (points[i].equals(point)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void found(Point... points) {
+        for (Point point : points) {
+            usedPoints[x] = point;
+            x++;
         }
     }
 
@@ -103,31 +118,33 @@ public class FastCollinearPoints {
         return Math.abs(double1 - double2) < 0.0000000001;
     }
 
-    private LineSegment findLongest(Point... points) {
+    private Point[] findLongest(Point... points) {
         double biggestDist = 0;
-        LineSegment retSeg = null;
+        Point retA = null;
+        Point retB = null;
 
         for (Point pointA : points) {
             for (Point pointB : points) {
                 if (this.distance(pointA, pointB) > biggestDist) {
-                    retSeg = new LineSegment(pointA, pointB);
+                    retA = pointA;
+                    retB = pointB;
                     biggestDist = this.distance(pointA, pointB);
                 }
             }
         }
 
-        return retSeg;
+        return new Point[] {retA, retB};
     }
 
     private double distance(Point a, Point b) {
-        String[] A = a.toString().split(", ");
-        String[] B = b.toString().split(", ");
+        String[] stringA = a.toString().split(", ");
+        String[] stringB = b.toString().split(", ");
 
-        int xA = Integer.parseInt(A[0].substring(1));
-        int yA = Integer.parseInt(A[1].substring(0, A[1].length()-1));
+        int xA = Integer.parseInt(stringA[0].substring(1));
+        int yA = Integer.parseInt(stringA[1].substring(0, stringA[1].length()-1));
 
-        int xB = Integer.parseInt(B[0].substring(1));
-        int yB = Integer.parseInt(B[1].substring(0, B[1].length()-1));
+        int xB = Integer.parseInt(stringB[0].substring(1));
+        int yB = Integer.parseInt(stringB[1].substring(0, stringB[1].length()-1));
 
         return Math.sqrt(Math.pow(xA-xB, 2) + Math.pow(yA-yB, 2));
     }

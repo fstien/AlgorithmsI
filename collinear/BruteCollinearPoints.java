@@ -2,12 +2,14 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
-import java.util.Arrays;
 
 public class BruteCollinearPoints {
 
     private final LineSegment[] lineSegments;
     private int segCount = 0;
+
+    private Point[] usedPoints;
+    private int x = 0;
 
     // finds all line segments containing 4 points
     public BruteCollinearPoints(Point[] points) {
@@ -25,15 +27,7 @@ public class BruteCollinearPoints {
 
         lineSegments = new LineSegment[points.length];
 
-        double[] segmentSlopes = new double[points.length];
-
-        double espsilon = 0.0000000001;
-        for (int i = 0; i < segmentSlopes.length; i++) {
-            segmentSlopes[i] = espsilon;
-        }
-
-        boolean segmentFoundAlready;
-        double currentSlope;
+        usedPoints = new Point[points.length];
 
         for (Point p1 : points) {
             for (Point p2 : points) {
@@ -45,21 +39,11 @@ public class BruteCollinearPoints {
                             if (doubleEqual(p1.slopeTo(p2), p1.slopeTo(p3))
                              && doubleEqual(p1.slopeTo(p2), p1.slopeTo(p4))) {
 
-                                currentSlope = p1.slopeTo(p4);
-                                segmentFoundAlready = false;
-
-                                for (double slope : segmentSlopes) {
-                                    if (doubleEqual(slope, currentSlope)
-                                     || doubleEqual(-slope, currentSlope)) {
-                                        segmentFoundAlready = true;
-                                    }
-                                }
-
-                                if (!segmentFoundAlready) {
+                                if (!this.includesPointAlreadyFound(p1, p2, p3, p4)) {
                                     // determine the longest segment
-                                    LineSegment lineSegment = this.findLongest(p1, p2, p3, p4);
-                                    lineSegments[segCount] = lineSegment;
-                                    segmentSlopes[segCount] = currentSlope;
+                                    Point[] segPoints = this.findLongest(p1, p2, p3, p4);
+                                    lineSegments[segCount] = new LineSegment(segPoints[0], segPoints[1]);
+                                    this.found(segPoints[0], segPoints[1]);
                                     segCount++;
                                 }
 
@@ -73,35 +57,55 @@ public class BruteCollinearPoints {
 
     }
 
+    private boolean includesPointAlreadyFound(Point... points) {
+        for (int i = 0; i < points.length; i++) {
+            for (Point point : usedPoints) {
+                if (points[i].equals(point)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void found(Point... points) {
+        for (Point point : points) {
+            usedPoints[x] = point;
+            x++;
+        }
+    }
+
     private boolean doubleEqual(double double1, double double2) {
         return Math.abs(double1 - double2) < 0.0000000001;
     }
 
-    private LineSegment findLongest(Point... points) {
+    private Point[] findLongest(Point... points) {
         double biggestDist = 0;
-        LineSegment retSeg = null;
+        Point retA = null;
+        Point retB = null;
 
         for (Point pointA : points) {
             for (Point pointB : points) {
                 if (this.distance(pointA, pointB) > biggestDist) {
-                    retSeg = new LineSegment(pointA, pointB);
+                    retA = pointA;
+                    retB = pointB;
                     biggestDist = this.distance(pointA, pointB);
                 }
             }
         }
 
-        return retSeg;
+        return new Point[] {retA, retB};
     }
 
     private double distance(Point a, Point b) {
-        String[] A = a.toString().split(", ");
-        String[] B = b.toString().split(", ");
+        String[] stringA = a.toString().split(", ");
+        String[] stringB = b.toString().split(", ");
 
-        int xA = Integer.parseInt(A[0].substring(1));
-        int yA = Integer.parseInt(A[1].substring(0, A[1].length()-1));
+        int xA = Integer.parseInt(stringA[0].substring(1));
+        int yA = Integer.parseInt(stringA[1].substring(0, stringA[1].length()-1));
 
-        int xB = Integer.parseInt(B[0].substring(1));
-        int yB = Integer.parseInt(B[1].substring(0, B[1].length()-1));
+        int xB = Integer.parseInt(stringB[0].substring(1));
+        int yB = Integer.parseInt(stringB[1].substring(0, stringB[1].length()-1));
 
         return Math.sqrt(Math.pow(xA-xB, 2) + Math.pow(yA-yB, 2));
     }
