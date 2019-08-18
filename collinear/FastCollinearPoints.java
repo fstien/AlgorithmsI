@@ -29,6 +29,14 @@ public class FastCollinearPoints {
         lineSegments = new LineSegment[points.length];
         usedPoints = new Point[points.length];
 
+        double[] segmentSlopes = new double[points.length];
+        double espsilon = 0.0000000001;
+        for (int i = 0; i < segmentSlopes.length; i++) {
+            segmentSlopes[i] = espsilon;
+        }
+        boolean slopeFoundAlready;
+        double currentSlope;
+
         int pointCount = points.length;
 
         Point[] otherPoints = new Point[pointCount - 1];
@@ -87,30 +95,43 @@ public class FastCollinearPoints {
                 }
                 Point[] segPoints = findLongest(colPoints);
 
-                if (!this.includesPointAlreadyFound(colPoints)) {
+                currentSlope = colPoints[0].slopeTo(colPoints[1]);
+                slopeFoundAlready = false;
+
+                for (double slope : segmentSlopes) {
+                    if (doubleEqual(slope, currentSlope)) {
+                        slopeFoundAlready = true;
+                    }
+                }
+
+                if (!slopeFoundAlready || this.allPointAlreadyFound(colPoints)) {
                     lineSegments[segCount] = new LineSegment(segPoints[0], segPoints[1]);
-                    this.found(segPoints[0], segPoints[1]);
+                    this.found(segPoints);
                     segCount++;
                 }
             }
         }
     }
 
-    private boolean includesPointAlreadyFound(Point... points) {
+    private boolean allPointAlreadyFound(Point... points) {
+        int pointCount = 0;
+
         for (int i = 0; i < points.length; i++) {
             for (Point point : usedPoints) {
                 if (points[i].equals(point)) {
-                    return true;
+                    pointCount++;
                 }
             }
         }
-        return false;
+        return pointCount == points.length;
     }
 
     private void found(Point... points) {
         for (Point point : points) {
-            usedPoints[x] = point;
-            x++;
+            if(!Arrays.asList(usedPoints).contains(point)) {
+                usedPoints[x] = point;
+                x++;
+            }
         }
     }
 

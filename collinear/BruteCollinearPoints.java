@@ -29,32 +29,53 @@ public class BruteCollinearPoints {
 
         usedPoints = new Point[points.length];
 
+        double[] segmentSlopes = new double[points.length];
+
+        double espsilon = 0.0000000001;
+        for (int i = 0; i < segmentSlopes.length; i++) {
+            segmentSlopes[i] = espsilon;
+        }
+
+        boolean slopeFoundAlready;
+        double currentSlope;
+
         for (Point p1 : points) {
             for (Point p2 : points) {
                 for (Point p3 : points) {
                     for (Point p4 : points) {
+
                         if (p1 != p2 && p1 != p3 && p1 != p4
                          && p2 != p3 && p2 != p4 && p3 != p4) {
 
                             if (doubleEqual(p1.slopeTo(p2), p1.slopeTo(p3))
                              && doubleEqual(p1.slopeTo(p2), p1.slopeTo(p4))) {
 
-                                if (!this.includesPointAlreadyFound(p1, p2, p3, p4)) {
+                                currentSlope = p1.slopeTo(p4);
+                                slopeFoundAlready = false;
+
+                                for (double slope : segmentSlopes) {
+                                    if (doubleEqual(slope, currentSlope)) {
+                                        slopeFoundAlready = true;
+                                    }
+                                }
+
+                                if (!this.includesPointAlreadyFound(p1, p2, p3, p4) || !slopeFoundAlready) {
                                     // determine the longest segment
                                     Point[] segPoints = this.findLongest(p1, p2, p3, p4);
                                     lineSegments[segCount] = new LineSegment(segPoints[0], segPoints[1]);
-                                    this.found(segPoints[0], segPoints[1]);
+                                    this.found(segPoints);
+                                    segmentSlopes[segCount] = currentSlope;
                                     segCount++;
                                 }
 
                             }
 
                         }
+
                     }
                 }
             }
         }
-
     }
 
     private boolean includesPointAlreadyFound(Point... points) {
