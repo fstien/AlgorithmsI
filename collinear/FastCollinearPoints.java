@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class FastCollinearPoints {
 
-    private LineSegment[] lineSegments;
+    private final LineSegment[] lineSegments;
     private int segCount = 0;
 
     // finds all line segments containing 4 or more points
@@ -57,7 +57,7 @@ public class FastCollinearPoints {
             int maxCount = 1;
 
             for (int i = 1; i < slopes.length; i++) {
-                if (slopes[i] == previous)
+                if (doubleEqual(slopes[i], previous))
                     count++;
                 else {
                     if (count > maxCount) {
@@ -78,7 +78,7 @@ public class FastCollinearPoints {
                 colPoints[0] = p;
                 int z = 0;
                 for (int i = 0; i < slopes.length; i++) {
-                    if (slopes[i] == popSlope) {
+                    if (doubleEqual(slopes[i], popSlope)) {
                         colPoints[z+1] = otherPoints[i];
                         z++;
                     }
@@ -97,6 +97,10 @@ public class FastCollinearPoints {
                 }
             }
         }
+    }
+
+    private boolean doubleEqual(double double1, double double2) {
+        return Math.abs(double1 - double2) < 0.0000000001;
     }
 
     private LineSegment findLongest(Point... points) {
@@ -125,7 +129,7 @@ public class FastCollinearPoints {
         int xB = Integer.parseInt(B[0].substring(1));
         int yB = Integer.parseInt(B[1].substring(0, B[1].length()-1));
 
-        return Math.sqrt( Math.pow( xA-xB, 2) + Math.pow( yA-yB, 2)  );
+        return Math.sqrt(Math.pow(xA-xB, 2) + Math.pow(yA-yB, 2));
     }
 
     // the number of line segments

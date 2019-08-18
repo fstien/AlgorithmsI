@@ -2,9 +2,11 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.Arrays;
+
 public class BruteCollinearPoints {
 
-    private LineSegment[] lineSegments;
+    private final LineSegment[] lineSegments;
     private int segCount = 0;
 
     // finds all line segments containing 4 points
@@ -25,8 +27,9 @@ public class BruteCollinearPoints {
 
         double[] segmentSlopes = new double[points.length];
 
+        double espsilon = 0.0000000001;
         for (int i = 0; i < segmentSlopes.length; i++) {
-            segmentSlopes[i] = 0.0000000001;
+            segmentSlopes[i] = espsilon;
         }
 
         boolean segmentFoundAlready;
@@ -39,19 +42,23 @@ public class BruteCollinearPoints {
                         if (p1 != p2 && p1 != p3 && p1 != p4
                          && p2 != p3 && p2 != p4 && p3 != p4) {
 
-                            if (p1.slopeTo(p4) == p2.slopeTo(p3)) {
+                            if (doubleEqual(p1.slopeTo(p2), p1.slopeTo(p3))
+                             && doubleEqual(p1.slopeTo(p2), p1.slopeTo(p4))) {
 
                                 currentSlope = p1.slopeTo(p4);
                                 segmentFoundAlready = false;
 
-                                for (double slope : segmentSlopes)
-                                    if (slope == currentSlope) segmentFoundAlready = true;
+                                for (double slope : segmentSlopes) {
+                                    if (doubleEqual(slope, currentSlope)
+                                     || doubleEqual(-slope, currentSlope)) {
+                                        segmentFoundAlready = true;
+                                    }
+                                }
 
                                 if (!segmentFoundAlready) {
-
                                     // determine the longest segment
                                     LineSegment lineSegment = this.findLongest(p1, p2, p3, p4);
-                                    lineSegments[segCount] = new LineSegment(p1, p2);
+                                    lineSegments[segCount] = lineSegment;
                                     segmentSlopes[segCount] = currentSlope;
                                     segCount++;
                                 }
@@ -66,6 +73,10 @@ public class BruteCollinearPoints {
 
     }
 
+    private boolean doubleEqual(double double1, double double2) {
+        return Math.abs(double1 - double2) < 0.0000000001;
+    }
+
     private LineSegment findLongest(Point... points) {
         double biggestDist = 0;
         LineSegment retSeg = null;
@@ -74,6 +85,7 @@ public class BruteCollinearPoints {
             for (Point pointB : points) {
                 if (this.distance(pointA, pointB) > biggestDist) {
                     retSeg = new LineSegment(pointA, pointB);
+                    biggestDist = this.distance(pointA, pointB);
                 }
             }
         }
@@ -91,7 +103,7 @@ public class BruteCollinearPoints {
         int xB = Integer.parseInt(B[0].substring(1));
         int yB = Integer.parseInt(B[1].substring(0, B[1].length()-1));
 
-        return Math.sqrt( Math.pow( xA-xB, 2) + Math.pow( yA-yB, 2)  );
+        return Math.sqrt(Math.pow(xA-xB, 2) + Math.pow(yA-yB, 2));
     }
 
     // the number of line segments
